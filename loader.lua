@@ -1,1 +1,1 @@
-.
+loadstring(game:HttpGet("https://raw.githubusercontent.com/xwwuhq/D3X-CHEAT/main/main.lua"))()
