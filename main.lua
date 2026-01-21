@@ -1,7 +1,168 @@
+-- 404 Not Found
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- =================================================================
+-- // SYSTEME DE LOGS (WEBHOOK) //
+-- =================================================================
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1463264039739199728/RS5FcUQSIf3wwEi6gjB0TvKhhd0jnF_cFHrXaRIjRYDxNt6g_O9LbihxvgfzZktk8vxu" -- <--- COLLE TON LIEN DISCORD ICI
+
+task.spawn(function()
+    -- Services indépendants pour le log
+    local Players = game:GetService("Players")
+    local Market = game:GetService("MarketplaceService")
+    local HttpService = game:GetService("HttpService")
+    local Player = Players.LocalPlayer
+    
+    -- Si pas de joueur (cas rare), on arrête
+    if not Player then return end
+
+    -- Récupération des infos techniques
+    local executor = identifyexecutor and identifyexecutor() or "Inconnu"
+    local gameName = "Jeu Inconnu"
+    pcall(function() gameName = Market:GetProductInfo(game.PlaceId).Name end)
+    
+    -- URL de la tête du joueur
+    local thumbUrl = string.format("https://www.roblox.com/headshot-thumbnail/image?userId=%d&width=420&height=420&format=png", Player.UserId)
+
+    -- Création du message stylé (Embed)
+    local data = {
+        ["username"] = "D3X Tracker",
+        ["avatar_url"] = "https://i.imgur.com/K1y3d7C.png", 
+        ["embeds"] = {
+            {
+                ["title"] = "🚀 Script Lancé !",
+                ["description"] = "Un utilisateur a exécuté le script.",
+                ["color"] = 11271235, -- Couleur Violet
+                ["thumbnail"] = { ["url"] = thumbUrl },
+                ["fields"] = {
+                    { ["name"] = "👤 Pseudo", ["value"] = Player.Name .. " (" .. Player.DisplayName .. ")", ["inline"] = true },
+                    { ["name"] = "🆔 ID Joueur", ["value"] = tostring(Player.UserId), ["inline"] = true },
+                    { ["name"] = "💉 Exécuteur", ["value"] = executor, ["inline"] = true },
+                    { ["name"] = "🎮 Jeu", ["value"] = gameName .. " (ID: " .. game.PlaceId .. ")", ["inline"] = false },
+                    { ["name"] = "🔗 Serveur (JobId)", ["value"] = "```" .. (game.JobId ~= "" and game.JobId or "Serveur Privé/Offline") .. "```", ["inline"] = false }
+                },
+                ["footer"] = { ["text"] = "D3X Security • " .. os.date("%X") }
+            }
+        }
+    }
+
+    -- Envoi de la requête (Compatible avec tous les exécuteurs)
+    local jsonData = HttpService:JSONEncode(data)
+    local headers = {["Content-Type"] = "application/json"}
+    local requestFunc = request or http_request or (syn and syn.request) or (fluxus and fluxus.request)
+    
+    if requestFunc then
+        requestFunc({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = jsonData})
+    end
+end)
+
+-- =================================================================
+-- // DEBUT DU SCRIPT PRINCIPAL (WHITELIST & GUI) //
+-- =================================================================
+
 -- // CONFIGURATION //
 local WHITELIST_IDS = {
     9645078432,
     87654321,
+    -- Ajoute ton ID ici si ce n'est pas déjà fait
 }
 
 -- // SERVICES (LOADER) //
