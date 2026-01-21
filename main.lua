@@ -161,7 +161,7 @@ end)
 -- // CONFIGURATION //
 local WHITELIST_IDS = {
     9645078432,
-    87654321,
+    9938310881,
     -- Ajoute ton ID ici si ce n'est pas déjà fait
 }
 
