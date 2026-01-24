@@ -158,27 +158,7 @@ end)
 -- // DEBUT DU SCRIPT PRINCIPAL (WHITELIST & GUI) //
 -- =================================================================
 
--- // CONFIGURATION //
-local WHITELIST_IDS = {
-    9938310881,
-    8381325666,
-   
-    -- Ajoute ton ID ici si ce n'est pas déjà fait
-}
 
--- // SERVICES (LOADER) //
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local ContentProvider = game:GetService("ContentProvider")
-local Lighting = game:GetService("Lighting")
-local RunService = game:GetService("RunService")
-
-local Player = Players.LocalPlayer
-local PlayerGui = Player:WaitForChild("PlayerGui")
-
--- // FONCTION À LANCER SI L'ACCÈS EST VALIDÉ //
-local function StartScript()
-    print("ACCÈS AUTORISÉ : Lancement du script principal...")
 
     -- =================================================================
     -- DEBUT DU SCRIPT PRINCIPAL (D3X V4)
